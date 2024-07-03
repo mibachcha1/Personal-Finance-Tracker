@@ -1,6 +1,3 @@
-
-
-
 .App {
   text-align: center;
 }
@@ -10,6 +7,20 @@ body {
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
+  color: #e0e1dd;
+  background-color: black;
+  font-size: larger;
+}
+
+.card {
+  color: #e0e1dd;
+  background-color: #778da9;
+
+}
+
+.summary-card {
+  color: #e0e1dd;
+  background-color: #415a77;
 }
 
 .circular-button {
@@ -22,9 +33,6 @@ body {
   color: white;
   border: none;
   border-radius: 50%;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
   text-align: center;
   margin: auto;
   font-size: 24px;
@@ -34,6 +42,27 @@ body {
   font-weight: bold;
 }
 
+.circular-button-1 {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: red;
+}
+
 .circular-button:hover {
   background-color: #0056b3;
+}
+
+.circular-button-1:hover {
+  background-color: darkred;
+}
+
+table {
+  border-radius: 2rem;
+}
+
+input {
+  border: 1px solid black;
 }

@@ -1,26 +1,27 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import api from './api'
 import Popup from "./components/popup";
 import Nav from "./components/nav";
 import Transactions from "./components/transactions";
 import SummarizedView from "./components/summarizedView";
+import InitPopup from "./components/initpopup";
 
 const App = () => {
-  const [transactions,setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [startingBalance, setStartingBalance] = useState(0.0)
   const [goalBalance, setGoalBalance] = useState(0.0)
   const [expenses, setTotalExpenses] = useState(0.0)
   const [income, setTotalIncome] = useState(0.0)
   const [numPayChecks, setNumPayChecks] = useState(0)
- 
+
   const fetchTransactions = async () => {
-    const response = await(api.get('/transactions/'))
+    const response = await (api.get('/transactions/'))
     console.log(response);
-    setTransactions(response.data)    
+    setTransactions(response.data)
   };
 
   const fetchUserData = async () => {
-    const response = await(api.get('/users/1'))
+    const response = await (api.get('/users/1'))
     const goal = response.data.goal_balance;
     const starting = response.data.starting_balance;
 
@@ -31,9 +32,9 @@ const App = () => {
   useEffect(() => {
     fetchTransactions();
     fetchUserData();
-  },[]);
+  }, []);
 
-  const [formData,setFormData] = useState({
+  const [formData, setFormData] = useState({
     amount: '',
     category: '',
     description: '',
@@ -42,7 +43,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    
+
     const calculateTotalExpenses = () => {
       if (transactions.length > 0) {
         const expenses = transactions.filter(transaction => !transaction.is_income);
@@ -71,6 +72,8 @@ const App = () => {
       } else {
         setNumPayChecks(0); // Reset total expenses if transactions list is empty
       }
+
+
     };
 
     calculateTotalExpenses(); // Initial calculation
@@ -78,11 +81,11 @@ const App = () => {
     calculateNumPayChecks();
 
   }, [transactions]); // Depend on 'transactions' to re-run whenever it changes
-  
+
 
 
   const handleSubmit = async (formData) => {
-    await api.post('/transactions/',formData)
+    await api.post('/transactions/', formData)
     setFormData(
       {
         amount: '',
@@ -95,17 +98,24 @@ const App = () => {
     fetchTransactions()
   }
 
-  const handleDeleteMain = async(id) => {
-    await api.delete('/transactions/'+id)
+  const handleInitSubmit = async (formData) => {
+    console.log(formData);
+    await api.put('/users/1', formData);
+    fetchUserData()
+  }
+
+  const handleDeleteMain = async (id) => {
+    await api.delete('/transactions/' + id)
     fetchTransactions()
   }
 
   return (
     <>
-      <Nav/>
-      <SummarizedView goal={goalBalance} starting={startingBalance} debt={expenses} income={income} checks = {numPayChecks}/>
-      <Popup onSubmit={handleSubmit}/>
-      <Transactions transactions={transactions} handleDeleteMain = {handleDeleteMain}/>
+      <Nav />
+      <SummarizedView goal={goalBalance} starting={startingBalance} debt={expenses} income={income} checks={numPayChecks} />
+      <Popup onSubmit={handleSubmit} data={formData} />
+      <InitPopup onSubmit={handleInitSubmit} />
+      <Transactions transactions={transactions} handleDeleteMain={handleDeleteMain} />
     </>
   )
 }

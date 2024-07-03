@@ -3,14 +3,14 @@ import React from 'react'
 const Nav = () => {
   return (
     <div>
-        <nav className="navbar navbar-dark bg-primary">
+      <nav className="navbar navbar-dark bg-dark">
         <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="#home">
             Finance App
-        </a>
+          </a>
         </div>
-    </nav>
-  </div>
+      </nav>
+    </div>
   )
 }
 
